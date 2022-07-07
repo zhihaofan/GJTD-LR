@@ -10,7 +10,7 @@ par.H          =    @(z)H_z(z, par.fft_B, sf, sz,s0 );
 par.HT         =    @(y)HT_y(y, par.fft_BT, sf, sz,s0);
 par.P=create_F();
 % F=F(:,3:31);
-for band = 1:size(F,1)  % 归一化
+for band = 1:size(F,1) 
     div = sum(F(band,:));
     for i = 1:size(F,2)
         F(band,i) = F(band,i)/div;
@@ -44,7 +44,7 @@ bparams.block_num=[num1 num2];
 
 fkmeans_omaxpt.careful = 1;
 predenoised_blocks = ExtractBlocks(MSI, bparams);
-Y2=Unfold(predenoised_blocks,size(predenoised_blocks),4);   % 把每块拉成行向量8*8*3--->1*192
+Y2=Unfold(predenoised_blocks,size(predenoised_blocks),4);   
 [aa ]=fkmeans(Y2,K,fkmeans_omaxpt);
 
 
@@ -80,7 +80,7 @@ G2=zeros(size(V2));
 G3=zeros(size(V3));
 CCC=R'*MSI3+HHH1;
 C1=R'*R+3*mu*eye(size(R,2)); 
-[Q,Lambda]=eig(C1);                         % Lamdba：特征值，Q：特征向量组成的矩阵
+[Q,Lambda]=eig(C1);                        
 Lambda=reshape(diag(Lambda),[1 1 L]);
 InvLbd=1./repmat(Lambda,[ sf*n_dr  sf*n_dc 1]);   
 B2Sum=PPlus(abs(FBs).^2./( sf^2),n_dr,n_dc);
@@ -90,8 +90,8 @@ for i=1:3
     HR_HSI3=mu*(V1+G1/(2*mu)+V2+G2/(2*mu)+V3+G3/(2*mu));
     C3=CCC+HR_HSI3;
     C30=fft2(reshape((Q\C3)',[nr nc L   ])).*InvLbd;
-    temp  = PPlus_s(C30/( sf^2).*FBs,n_dr,n_dc);         % PPlus_s:同PPlus，区别：输出空间大小不同，这个小
-    invQUF = C30-repmat(temp.*InvDI,[ sf  sf 1]).*FBCs1; % The operation: C5bar- temp*(\lambda_j d Im+\Sum_i=1^d Di^2)^{-1}Dv^H)
+    temp  = PPlus_s(C30/( sf^2).*FBs,n_dr,n_dc);        
+    invQUF = C30-repmat(temp.*InvDI,[ sf  sf 1]).*FBCs1;
     VXF    = Q*reshape(invQUF,[nc*nc L])';
     ZE = reshape(real(ifft2(reshape(VXF',[nr nc L]))),[nc*nc L])'; 
 
@@ -100,7 +100,6 @@ for i=1:3
     Zt=hyperConvert3D(ZE,nr, nc );
     % aa1=C1*ZE-C3+ creat_HSI_T(creat_HSI(ZE ,psfY),psfY);
     % norm(aa1(:))
-
 
     %% spatial low rank
     B1=ZE-G1/(2*mu);
