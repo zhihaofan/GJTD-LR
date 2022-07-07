@@ -9,7 +9,7 @@ f_c = fft(c,[],3);
 %% -----------------------------1----------------------
 a_res1=zeros(size(a));
 tic;
-halfn3 = round(size(a,3)/2); % round：四舍五入，若结果是.5，则向无穷
+halfn3 = round(size(a,3)/2); 
 a_res1(:,:,1)=f_c(:,:,1)/f_b(:,:,1);
 for i = 2 : halfn3
     a_res1(:,:,i) = f_c(:,:,i)/f_b(:,:,i);
