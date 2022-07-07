@@ -1,8 +1,7 @@
 clear;
 clc;
 
-%% 初始化值
-addpath(genpath('RegularizedSC')); % 加载文件
+addpath(genpath('RegularizedSC')); 
 TR_IMG_PATH = 'Data';
 dict_size   = 512;          % dictionary size
 lambda      = 0.15;         % sparsity regularization
@@ -16,15 +15,13 @@ type='*.mat';
 num_patch=nSmp;
 
 
-%% 读取数据和分块、修剪
 [Xh, Xl] = ext_data(TR_IMG_PATH, type, patch_size, nSmp, upscale);
 % [Xh, Xl] = rnd_smp_patch_s(TR_IMG_PATH, '*.bmp', patch_size, nSmp, upscale);
 
 
-[Xh, Xl] = t_patch_pruning(Xh, Xl, 10);  % 修剪块
+[Xh, Xl] = t_patch_pruning(Xh, Xl, 10); 
 
 % save('train_data','Xh','Xl');
-%% 字典训练
 
 [Dh, Dl] = fddl_train_coupled_dict(Xh, Xl, 3,15);
 
