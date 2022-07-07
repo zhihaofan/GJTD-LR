@@ -13,7 +13,7 @@ for ii = 1:length(img_dir),
     nper_img(ii) = prod(size(im));
 end
 
-nper_img = floor(nper_img*num_patch/sum(nper_img));  % 需要100 000个块，每个图像提供的块的数量为nper_img的值
+nper_img = floor(nper_img*num_patch/sum(nper_img)); 
 
 for ii = 1:img_num,
     patch_num = nper_img(ii);
