@@ -16,8 +16,8 @@ InImg=abs(InImg);
 
 
 ymax=maxim;ymin=minim;
-xmax = max(max(max(InImg))); %求得InImg中的最大值
-xmin = min(min(min(InImg))); %求得InImg中的最小值
-OutImg = (ymax-ymin)*(InImg-xmin)/(xmax-xmin) + ymin; %归一化并取整
+xmax = max(max(max(InImg)));
+xmin = min(min(min(InImg)));
+OutImg = (ymax-ymin)*(InImg-xmin)/(xmax-xmin) + ymin; 
 
 end
