@@ -2,7 +2,6 @@ function [Dh, Dl] = fddl_train_coupled_dict(Xh, Xl,class_num,k_iter)
 
 [XX,label,cls_num] = patch_class(Xh, Xl,class_num,k_iter);
 hDim=size(Xh,1);
-%% dictionary training ÑµÁ·
 % [D] = dictionary_training(XX, x_size, label,lambda,n_iters,cls_num);
 opts.nClass        =   cls_num;
 opts.wayInit       =   'random';
@@ -17,7 +16,6 @@ tr_data             =  XX;
 % [Dict,Drls,coef] = FDDL(tr_data,label,opts);
 [Dict,Drls,coef] = new_FDDL_SR(tr_data,label,opts);
 
-%È¡³ö¸ßµÍ×Öµä²¢´æ´¢
 Dh = real(Dict(1:hDim,:,:));
 Dl = real(Dict(hDim+1:end, :,:));
 % patch_size = sqrt(size(Dh, 1));
