@@ -1,9 +1,8 @@
 function [gap] = FDDL_Class_Energy2cSR(Ai,D,Xi,drls,index,lambda1,classn,tau2,tau3)
-%  求解系数 Xi 的目标函数值
 % -----------------------------------------------------------------------  
-% Input :   (1) Ai :  第i 类样本
-%           (2) D :   低分辨率字典DL
-%           (3) Xi:   第 i类系数阵
+% Input :   (1) Ai : 
+%           (2) D :  
+%           (3) Xi:   
 %           (4) Xa:   the coefficient matrix of the whole class
 %           (5) drls: labels of dictionary's column
 %           (7) index: label of class being processed
@@ -17,7 +16,7 @@ GAP1  =   norm((Ai-D*Xi),'fro')^2;                                        %||A_i
 GAP2  =   lambda1*sum(abs(Xi(:)));                                        %||Xi||1   
 GAP5  =   (tau3)*norm((Ai-D(:,drls==index)*Xi(drls==index,:)),'fro')^2;   %||A_i-D_iX_i^i||_F^2
 
-GAP6  =   0;                                                              %∑||D_jX_i^j||_F^2 
+GAP6  =   0;                                                              %鈭憒|D_jX_i^j||_F^2 
     for i = 1:classn
         if i~=index
         GAP6 = GAP6+tau2*norm(D(:,drls==i)*Xi(drls==i,:),'fro')^2;
