@@ -1,7 +1,5 @@
 function [hIm] = FDDL_ScSR(lIm, up_scale, Dh, Dl, im_h,drls)
-%% 迭代次数控制：Fish_par.nIter
-%% 进度：109行
-A = double(lIm);     %待重建图像
+A = double(lIm);    
 p = fspecial('gaussian', 5,0.8);                  
 % p = fspecial('gaussian', 5,1);
 
@@ -10,7 +8,6 @@ p = p./sum(p(:));
 im=convn(im_h, p, 'same');
 [h,w,la] = size(im_h);
 F=create_F();
-%将图像分块并提取图像块特征
 mIm = imresize(A, up_scale, 'bicubic');
 t= hyperConvert3D((F*hyperConvert2D(im)), size(mIm,1), size(mIm,2));
 [m1,n1,k1]=size(Dh);
@@ -38,50 +35,48 @@ for i=1:k1
 end
 
 
-s         = 2;     %5*5 叠3
+s         = 2;    
 b         = patch_size;
-N         =  h-b+1;                          %取得的最后一个像素为253，确保最后一个块为6*6的大小
+N         =  h-b+1;                        
 M         =  w-b+1;
-r         =  [1:s:N];              %要取的，图像行像素的序号
-r         =  [r r(end)+1:N];       % 1~253  把循环生成的数值放到数组r 中，为后面循环获取图像块做准备。防止取块时，少一部分,补【r(end)+1:N】
+r         =  [1:s:N];             
+r         =  [r r(end)+1:N];       
 c         =  [1:s:M];
 c         =  [c c(end)+1:M];
-L         =  length(r)*length(c);   %253*253=64009 图像像素序号的总的长度  当s=2时，L=127*127=16129块间重叠2
+L         =  length(r)*length(c);  
 
 X_m=fea_patch(b,lImfea_Z,r,c);
 X=X_m;
 X=normal(X);
 X_m=is_nan(X_m);
-%% 聚类标签
 load('dictionary_trained/center_patches_cluster_3.mat'); 
 % load('./vec.mat');
-vec1  =vec;                             %一行是一个类别中心
-set         =   1:size(X, 2);                                %重建图像块个数
-L           =   size(set,2);                                 %重建图像块个数    
+vec1  =vec;                           
+set         =   1:size(X, 2);                               
+L           =   size(set,2);                        
 b2          =   size(X, 1);
 X_t1=X(:,:,1);
-for j = 1 : L         %找到L个块分别属于哪一类
+for j = 1 : L         
 %     jj = set(j);
-%     vv= vec(:,1);      %j = 1,得出第一个块到10个类中心的距离
-%     yy= X(1,set(j));   %J= 2，得出第二个块到10个类中心的距离
-    dis   =   (vec(:, 1) -  X_t1(1, set(j))).^2;    %set（1*10124）中存放1~10124个图像块的序号
+%     vv= vec(:,1);     
+%     yy= X(1,set(j));  
+    dis   =   (vec(:, 1) -  X_t1(1, set(j))).^2;   
     for i = 2 : b2
-        dis  =  dis + (vec(:, i)-X_t1(i, set(j))).^2;   %i=1时，61*1
+        dis  =  dis + (vec(:, i)-X_t1(i, set(j))).^2;  
     end
-    [~,ind]      =   min( dis );  %%ind 类别序号  set(j)：图像块序号
-    cls_idx( set(j) )   =   ind;    %cls_idx中存放1~16129个块所属于的类别
+    [~,ind]      =   min( dis );  
+    cls_idx( set(j) )   =   ind;   
 end
 cls_idx = cls_idx';
-[s_idx, seg]    =   Proc_cls_idx( cls_idx );  %1~16129（127*127）个块所属类别（类别序号cls_idx)
+[s_idx, seg]    =   Proc_cls_idx( cls_idx ); 
 
 Y = zeros( b*b, L , k1);
-Fish_ipts.Dl        = Dl;      %100*1000
-Fish_par.dls        = drls;   %字典类标签
-Fish_par.tau        = 0.005;  %稀疏正则化参数
-%         Fish_par.tau        = 0.0015;  %稀疏正则化参数
-Fish_par.cls_num    = length(unique(drls));    %子字典类别数
+Fish_ipts.Dl        = Dl;      
+Fish_par.dls        = drls;   
+Fish_par.tau        = 0.005; 
+Fish_par.cls_num    = length(unique(drls));    
 Fish_par.nIter      = 100;
-% Fish_par.c = 1.05*eigs(Dl(:,:,1)*Dl(:,:,1)',1);      % 参数sigma
+% Fish_par.c = 1.05*eigs(Dl(:,:,1)*Dl(:,:,1)',1);     
 Fish_nit=1;
 eta=0.0025;
 mu=0.0025;
@@ -134,7 +129,7 @@ while Fish_nit <= 1
     Fish_nit=Fish_nit+1;
 end
 
-im_out   =  zeros(h,w,spec);            %存放重建图像 256*256
+im_out   =  zeros(h,w,spec);         
 im_wei   =  zeros(h,w,spec);
 k        =  0;
 N        = length(r);
