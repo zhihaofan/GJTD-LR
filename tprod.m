@@ -33,7 +33,7 @@ C = zeros(n1,m2,n3);
 % first frontal slice
 C(:,:,1) = A(:,:,1)*B(:,:,1);
 % i=2,...,halfn3
-halfn3 = round(n3/2); % round：四舍五入，若结果是.5，则向无穷
+halfn3 = round(n3/2); 
 for i = 2 : halfn3
     C(:,:,i) = A(:,:,i)*B(:,:,i);
     C(:,:,n3+2-i) = conj(C(:,:,i));
