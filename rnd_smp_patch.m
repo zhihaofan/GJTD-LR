@@ -21,9 +21,9 @@ for ii = 1:length(img_dir)
 end
 
 [~,~,k1]=size(im);
-nper_img = floor(nper_img*num_patch/sum(nper_img));  % 需要100 000个块，每个图像提供的块的数量为nper_img的值
+nper_img = floor(nper_img*num_patch/sum(nper_img)); 
 
-for j=1:k1 % 光谱循环
+for j=1:k1 
     XH=[];
     XL=[];
     for ii = 1:img_num
