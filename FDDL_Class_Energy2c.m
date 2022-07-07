@@ -1,5 +1,4 @@
 function [gap] = FDDL_Class_Energy2c(Ai,D,Xi,drls,trls,index,lambda1,classn,tau2,tau3)
-%  求解系数 Xi 的目标函数值
 %=======================================================================
 % Class energy computation of FDDL, Version 1.0 
 % Input :   (1) Ai :  the data matrix of this class
@@ -20,16 +19,12 @@ function [gap] = FDDL_Class_Energy2c(Ai,D,Xi,drls,trls,index,lambda1,classn,tau2
 % Outputs : (1) gap  :    the total energy of some class
 %
 %------------------------------------------------------------------------
- %Ai 第i类样本矩阵  D：大字典  Xi:当前第i类样本对应的系数阵xi 
- %drls:大字典标签（1*700) trls:所有样本的标签  index：当前正在处理的类别序号
- %classn:类别总数    % fish_tau2:  parameter of ||D_jX_i^j||_F^2
-                     % fish_tau3:  parameter of ||A_i-D_iX_i^i||_F^2
-                     
+
 GAP1  =   norm((Ai-D*Xi),'fro')^2;      %||A_i-DX_i||_F^2
 GAP2  =   lambda1*sum(abs(Xi(:)));      %||Xi||1    
 GAP5  =   (tau2)*norm((Ai-D(:,drls==index)*Xi(drls==index,:)),'fro')^2;    %||A_i-D_iX_i^i||_F^2
    
-GAP6  =   0;                              %∑||D_jX_i^j||_F^2 
+GAP6  =   0;                              %鈭憒|D_jX_i^j||_F^2 
     for i = 1:classn
         if i~=index
         GAP6 = GAP6+tau3*norm(D(:,drls==i)*Xi(drls==i,:),'fro')^2;
