@@ -70,7 +70,7 @@ for ii=1:k1
         tem1 = -Yi*(Xi_i(i,:))' - (tau2)*Ui*(Xi_i(i,:))' - Vo*(Xo_i(i,:))' - tau3*UaXti;
     %     tem1 = - (tau2)*Ui*(Xi_i(i,:))';
     %     tem1 = -Yi*(Xi_i(i,:))' - (tau2)*Ui*(Xi_i(i,:))'  - tau3*Ua*(Xo_i(i,:))';
-        tem  = -tem1;        %norm(a,2) 返回A的最大奇异值，若Di 字典原址的最大奇异值小于10的-6次方，将此列原子置为0
+        tem  = -tem1;      
     %     if norm(tem,2)<1e-6
     %         Di(:,i) = zeros(size(tem));
     %         delet = [delet i];
