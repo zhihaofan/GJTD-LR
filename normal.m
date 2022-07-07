@@ -1,0 +1,9 @@
+function [x]=normal(X)
+% k1=size(X,3);
+% temp=X(:,:,1);
+% lNorm = sqrt(sum(temp.^2));
+% dx = find(lNorm);    %取出非零元素的块的序数
+% X = X(:,dx,:);
+sq=sqrt(sum(X.^2));
+sq=is_nan(sq);
+x = X./repmat(sq, size(X, 1), 1);
